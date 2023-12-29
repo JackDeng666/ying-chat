@@ -6,7 +6,35 @@ settings:
 
 importers:
 
-  .: {}
+  .:
+    devDependencies:
+      '@typescript-eslint/eslint-plugin':
+        specifier: ^6.8.0
+        version: 6.16.0(@typescript-eslint/parser@6.16.0)(eslint@8.56.0)(typescript@5.3.3)
+      '@typescript-eslint/parser':
+        specifier: ^6.8.0
+        version: 6.16.0(eslint@8.56.0)(typescript@5.3.3)
+      eslint:
+        specifier: ^8.52.0
+        version: 8.56.0
+      eslint-config-prettier:
+        specifier: ^9.0.0
+        version: 9.1.0(eslint@8.56.0)
+      eslint-plugin-prettier:
+        specifier: ^5.0.1
+        version: 5.1.2(eslint-config-prettier@9.1.0)(eslint@8.56.0)(prettier@3.1.1)
+      husky:
+        specifier: ^8.0.3
+        version: 8.0.3
+      prettier:
+        specifier: ^3.0.3
+        version: 3.1.1
+      ts-node:
+        specifier: ^10.9.1
+        version: 10.9.2(@types/node@20.10.5)(typescript@5.3.3)
+      typescript:
+        specifier: ^5.2.2
+        version: 5.3.3
 
   apps/client:
     dependencies:
@@ -23,30 +51,18 @@ importers:
       '@types/react-dom':
         specifier: ^18.2.17
         version: 18.2.18
-      '@typescript-eslint/eslint-plugin':
-        specifier: ^6.14.0
-        version: 6.16.0(@typescript-eslint/parser@6.16.0)(eslint@8.56.0)(typescript@5.3.3)
-      '@typescript-eslint/parser':
-        specifier: ^6.14.0
-        version: 6.16.0(eslint@8.56.0)(typescript@5.3.3)
       '@vitejs/plugin-react':
         specifier: ^4.2.1
         version: 4.2.1(vite@5.0.10)
-      eslint:
-        specifier: ^8.55.0
-        version: 8.56.0
       eslint-plugin-react-hooks:
         specifier: ^4.6.0
         version: 4.6.0(eslint@8.56.0)
       eslint-plugin-react-refresh:
         specifier: ^0.4.5
         version: 0.4.5(eslint@8.56.0)
-      typescript:
-        specifier: ^5.2.2
-        version: 5.3.3
       vite:
         specifier: ^5.0.8
-        version: 5.0.10
+        version: 5.0.10(@types/node@20.10.5)
 
   apps/server:
     dependencies:
@@ -87,27 +103,9 @@ importers:
       '@types/supertest':
         specifier: ^2.0.12
         version: 2.0.16
-      '@typescript-eslint/eslint-plugin':
-        specifier: ^6.0.0
-        version: 6.16.0(@typescript-eslint/parser@6.16.0)(eslint@8.56.0)(typescript@5.3.3)
-      '@typescript-eslint/parser':
-        specifier: ^6.0.0
-        version: 6.16.0(eslint@8.56.0)(typescript@5.3.3)
-      eslint:
-        specifier: ^8.42.0
-        version: 8.56.0
-      eslint-config-prettier:
-        specifier: ^9.0.0
-        version: 9.1.0(eslint@8.56.0)
-      eslint-plugin-prettier:
-        specifier: ^5.0.0
-        version: 5.1.2(eslint-config-prettier@9.1.0)(eslint@8.56.0)(prettier@3.1.1)
       jest:
         specifier: ^29.5.0
         version: 29.7.0(@types/node@20.10.5)(ts-node@10.9.2)
-      prettier:
-        specifier: ^3.0.0
-        version: 3.1.1
       source-map-support:
         specifier: ^0.5.21
         version: 0.5.21
@@ -120,15 +118,9 @@ importers:
       ts-loader:
         specifier: ^9.4.3
         version: 9.5.1(typescript@5.3.3)(webpack@5.89.0)
-      ts-node:
-        specifier: ^10.9.1
-        version: 10.9.2(@types/node@20.10.5)(typescript@5.3.3)
       tsconfig-paths:
         specifier: ^4.2.0
         version: 4.2.0
-      typescript:
-        specifier: ^5.1.3
-        version: 5.3.3
 
 packages:
 
@@ -1806,7 +1798,7 @@ packages:
       '@babel/plugin-transform-react-jsx-source': 7.23.3(@babel/core@7.23.6)
       '@types/babel__core': 7.20.5
       react-refresh: 0.14.0
-      vite: 5.0.10
+      vite: 5.0.10(@types/node@20.10.5)
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -3407,6 +3399,12 @@ packages:
   /human-signals@2.1.0:
     resolution: {integrity: sha512-B4FFZ6q/T2jhhksgkbEW3HBvWIfDW85snkQgawt07S7J5QXTk6BkNV+0yAeZrM5QpMAdYlocGoljn0sJ/WQkFw==}
     engines: {node: '>=10.17.0'}
+    dev: true
+
+  /husky@8.0.3:
+    resolution: {integrity: sha512-+dQSyqPh4x1hlO1swXBiNb2HzTDN1I2IGLQx1GrBuiqFJfoMrnZWwVmatvSiO+Iz8fBUnf+lekwNo4c2LlXItg==}
+    engines: {node: '>=14'}
+    hasBin: true
     dev: true
 
   /iconv-lite@0.4.24:
@@ -5536,7 +5534,7 @@ packages:
     resolution: {integrity: sha512-BNGbWLfd0eUPabhkXUVm0j8uuvREyTh5ovRa/dyow/BqAbZJyC+5fU+IzQOzmAKzYqYRAISoRhdQr3eIZ/PXqg==}
     engines: {node: '>= 0.8'}
 
-  /vite@5.0.10:
+  /vite@5.0.10(@types/node@20.10.5):
     resolution: {integrity: sha512-2P8J7WWgmc355HUMlFrwofacvr98DAjoE52BfdbwQtyLH06XKwaL/FMnmKM2crF0iX4MpmMKoDlNCB1ok7zHCw==}
     engines: {node: ^18.0.0 || >=20.0.0}
     hasBin: true
@@ -5564,6 +5562,7 @@ packages:
       terser:
         optional: true
     dependencies:
+      '@types/node': 20.10.5
       esbuild: 0.19.10
       postcss: 8.4.32
       rollup: 4.9.1
