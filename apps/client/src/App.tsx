@@ -1,12 +1,8 @@
-import { Button } from '@nextui-org/react'
+import { RouterProvider } from 'react-router-dom'
+import { router } from './router'
 
 function App() {
-  return (
-    <div>
-      <h1 className="text-3xl text-center font-bold underline">Hello world!</h1>
-      <Button>asdas</Button>
-    </div>
-  )
+  return <RouterProvider router={router}></RouterProvider>
 }
 
 export default App
