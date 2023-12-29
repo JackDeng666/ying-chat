@@ -1,0 +1,12 @@
+{
+  "name": "ying-chat",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "pnpm --reporter append-only -F ./apps/* dev"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
