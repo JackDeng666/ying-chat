@@ -1,6 +1,7 @@
 import { useNavigate, useLocation } from 'react-router-dom'
 import { Users, MessageSquare } from 'lucide-react'
 import { cn } from '@nextui-org/react'
+import { ModeToggle } from '@/components/mode-toggle'
 
 export const NavSidebar = () => {
   const navigate = useNavigate()
@@ -34,6 +35,8 @@ export const NavSidebar = () => {
           <Users />
         </div>
       </div>
+
+      <ModeToggle />
     </div>
   )
 }
