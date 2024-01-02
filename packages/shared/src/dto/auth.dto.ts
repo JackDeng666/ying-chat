@@ -6,6 +6,7 @@ import {
   MaxLength,
   MinLength
 } from 'class-validator'
+import { IsEqualTo } from '../validation'
 
 export class RegisterDto {
   @MinLength(6)
@@ -26,4 +27,12 @@ export class RegisterDto {
   @Length(6)
   @IsNotEmpty()
   code: string
+}
+
+export class RegisterDtoWithSubPass extends RegisterDto {
+  @IsNotEmpty({ message: 'Please input your Password again!' })
+  @IsEqualTo('password', {
+    message: 'Entered passwords differ from the another!'
+  })
+  subPassword: string
 }
