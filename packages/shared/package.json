@@ -1,0 +1,13 @@
+{
+  "name": "@ying-chat/shared",
+  "private": true,
+  "version": "0.0.0",
+  "description": "local shared package",
+  "author": "Jack Ying",
+  "license": "MIT",
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/esm/index.js",
+  "scripts": {
+    "build": "rm -rf dist && tsc -b tsconfig.json && tsc -b tsconfig.esm.json"
+  }
+}

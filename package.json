@@ -7,7 +7,8 @@
     "prepare": "husky install",
     "format": "prettier --config .prettierrc . --write",
     "lint": "pnpm -F ./apps/* lint",
-    "dev": "pnpm --reporter append-only -F ./apps/* dev"
+    "dev": "pnpm --reporter append-only -F ./apps/* dev",
+    "build:pkg": "pnpm --reporter append-only -F ./packages/* build"
   },
   "keywords": [],
   "author": "",
@@ -27,6 +28,8 @@
     "typescript": "^5.2.2"
   },
   "dependencies": {
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.14.0",
     "nanoid": "3"
   }
 }

@@ -8,6 +8,9 @@ import {
   Input
 } from '@nextui-org/react'
 import { CircleUserRound, Mail, Lock } from 'lucide-react'
+import { RegisterDto } from '@ying-chat/shared'
+
+console.log(RegisterDto)
 
 export const Register = () => {
   const navigate = useNavigate()
