@@ -13,6 +13,8 @@ import { classValidatorResolver } from '@hookform/resolvers/class-validator'
 import { toast } from 'sonner'
 import { UpdateUserDto } from '@ying-chat/shared'
 import { userApi } from '@/api'
+import { ImageUpload } from '@/components/upload'
+import { setUserInfo, useAuthStore } from '@/stores'
 
 type UserInfoModalProps = {
   open: boolean
@@ -51,6 +53,8 @@ export const UserInfoModal = ({
     }
   }
 
+  const userInfo = useAuthStore(state => state.userInfo)
+
   return (
     <Modal isOpen={open} onClose={close} isDismissable={false}>
       <ModalContent>
@@ -75,6 +79,19 @@ export const UserInfoModal = ({
                   errorMessage={errors.nickname?.message}
                   {...register('nickname')}
                 />
+                <div className="flex flex-col items-center gap-3">
+                  <p>User Avatar</p>
+                  <ImageUpload
+                    defaultUrl={userInfo?.avatar?.url}
+                    handleUpload={file => userApi.uploadUserAvatar(file)}
+                    onSuccess={res => {
+                      setUserInfo({
+                        ...userInfo!,
+                        avatar: res
+                      })
+                    }}
+                  />
+                </div>
               </ModalBody>
               <ModalFooter>
                 <Button

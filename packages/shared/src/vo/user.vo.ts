@@ -1,3 +1,5 @@
+import { FileVo } from './file.vo'
+
 export type UserVo = {
   id: number
   username: string
@@ -5,4 +7,6 @@ export type UserVo = {
   nickname: string
   createAt: string
   updateAt: string
+  avatarId?: number
+  avatar?: FileVo
 }

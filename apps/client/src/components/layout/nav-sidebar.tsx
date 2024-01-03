@@ -9,7 +9,7 @@ import {
   Avatar
 } from '@nextui-org/react'
 import { UserRound, FileEdit, LogOut, Users, MessageSquare } from 'lucide-react'
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { ModeToggle } from '@/components/mode-toggle'
 import { useAuthStore, logout, setUserInfo } from '@/stores'
 import { UserInfoModal } from '@/components/modals'
@@ -35,6 +35,10 @@ export const NavSidebar = () => {
       setUserInfo(newUserInfo)
     } catch {}
   }
+
+  useEffect(() => {
+    getUserInfo()
+  }, [])
 
   return (
     <div className="flex flex-col gap-4 items-center w-[72px] py-4 bg-content1">
@@ -69,7 +73,10 @@ export const NavSidebar = () => {
 
       <Dropdown placement="top-start" showArrow>
         <DropdownTrigger>
-          <Avatar className="cursor-pointer h-[48px] w-[48px]" />
+          <Avatar
+            className="cursor-pointer h-[48px] w-[48px]"
+            src={userInfo?.avatar?.url}
+          />
         </DropdownTrigger>
         <DropdownMenu
           aria-label="Profile Actions"

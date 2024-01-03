@@ -1,6 +1,7 @@
-import { Column, Entity } from 'typeorm'
+import { Column, Entity, JoinColumn, OneToOne } from 'typeorm'
 import { Exclude, instanceToPlain } from 'class-transformer'
 import { BaseEntity } from './base.entity'
+import { FileEntity } from './file.entity'
 
 @Entity({ name: 'user' })
 export class UserEntity extends BaseEntity {
@@ -25,6 +26,15 @@ export class UserEntity extends BaseEntity {
     nullable: true
   })
   nickname: string
+
+  @Column({
+    nullable: true
+  })
+  avatarId: number
+
+  @OneToOne(() => FileEntity)
+  @JoinColumn()
+  avatar: FileEntity
 
   toJSON() {
     return instanceToPlain(this)

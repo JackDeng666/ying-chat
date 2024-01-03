@@ -1,17 +1,22 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common'
+import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 import { UserEntity } from '@/modules/db/entities'
-import { UpdateUserDto } from '@ying-chat/shared'
+import { FileType, UpdateUserDto } from '@ying-chat/shared'
+import { FileService } from '@/modules/file/file.service'
 
 @Injectable()
 export class UserService {
   @InjectRepository(UserEntity)
   private readonly userRepository: Repository<UserEntity>
 
+  @Inject()
+  private readonly fileService: FileService
+
   async getUserInfo(userId: number) {
     const user = await this.userRepository.findOne({
-      where: { id: userId }
+      where: { id: userId },
+      relations: ['avatar']
     })
 
     if (!user) {
@@ -35,5 +40,17 @@ export class UserService {
     }
 
     await this.userRepository.update({ id: userId }, updateUserDto)
+  }
+
+  async uploadUserAvatar(file: Express.Multer.File, userId: number) {
+    const minioFile = await this.fileService.uploadFile({
+      file,
+      fileType: FileType.Avatar,
+      userId
+    })
+
+    await this.userRepository.update({ id: userId }, { avatarId: minioFile.id })
+
+    return minioFile
   }
 }
