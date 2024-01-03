@@ -1,5 +1,7 @@
-import { Controller, Get, Param } from '@nestjs/common'
+import { Body, Controller, Get, Post, Req } from '@nestjs/common'
 import { ApiOperation, ApiTags } from '@nestjs/swagger'
+import { Request } from 'express'
+import { UpdateUserDto } from '@ying-chat/shared'
 import { UserService } from './user.service'
 
 @ApiTags('user')
@@ -10,8 +12,19 @@ export class UserController {
   @ApiOperation({
     summary: 'getUserInfo'
   })
-  @Get(':id')
-  getUserInfo(@Param('id') id: number) {
-    return this.userService.getUserInfo(id)
+  @Get()
+  getUserInfo(@Req() request: Request) {
+    return this.userService.getUserInfo(request.userId)
+  }
+
+  @ApiOperation({
+    summary: 'updateUserInfo'
+  })
+  @Post()
+  updateUserInfo(
+    @Req() request: Request,
+    @Body() updateUserDto: UpdateUserDto
+  ) {
+    return this.userService.updateUserInfo(request.userId, updateUserDto)
   }
 }

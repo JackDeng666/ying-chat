@@ -9,14 +9,32 @@ import {
   Avatar
 } from '@nextui-org/react'
 import { UserRound, FileEdit, LogOut, Users, MessageSquare } from 'lucide-react'
+import { useMemo, useState } from 'react'
 import { ModeToggle } from '@/components/mode-toggle'
-import { useAuthStore, logout } from '@/stores'
+import { useAuthStore, logout, setUserInfo } from '@/stores'
+import { UserInfoModal } from '@/components/modals'
+import { userApi } from '@/api'
 
 export const NavSidebar = () => {
   const navigate = useNavigate()
   const { pathname } = useLocation()
 
   const userInfo = useAuthStore(state => state.userInfo)
+
+  const [openUserModal, setOpenUserModal] = useState(false)
+  const userModalInitialValues = useMemo(() => {
+    return {
+      username: userInfo?.username || '',
+      nickname: userInfo?.nickname || ''
+    }
+  }, [userInfo])
+
+  const getUserInfo = async () => {
+    try {
+      const newUserInfo = await userApi.getUserInfo()
+      setUserInfo(newUserInfo)
+    } catch {}
+  }
 
   return (
     <div className="flex flex-col gap-4 items-center w-[72px] py-4 bg-content1">
@@ -66,6 +84,9 @@ export const NavSidebar = () => {
             <DropdownItem
               key="user-info"
               startContent={<UserRound className="w-5 h-5" />}
+              onClick={() => {
+                setOpenUserModal(true)
+              }}
             >
               User Info
             </DropdownItem>
@@ -87,6 +108,13 @@ export const NavSidebar = () => {
           </DropdownItem>
         </DropdownMenu>
       </Dropdown>
+
+      <UserInfoModal
+        open={openUserModal}
+        close={() => setOpenUserModal(false)}
+        confirmSuccess={getUserInfo}
+        initialValues={userModalInitialValues}
+      />
     </div>
   )
 }
