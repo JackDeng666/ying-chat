@@ -1,5 +1,6 @@
 import axios, { AxiosError } from 'axios'
 import { toast } from 'sonner'
+import { TOKEN } from '@/stores'
 
 export const request = axios.create({
   baseURL: '/api'
@@ -14,6 +15,10 @@ export type ErrorRes = {
 }
 
 request.interceptors.request.use(config => {
+  const token = localStorage.getItem(TOKEN)
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`
+  }
   return config
 })
 
