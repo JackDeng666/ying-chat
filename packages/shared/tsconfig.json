@@ -7,7 +7,9 @@
     "experimentalDecorators": true,
     "declaration": true,
     "sourceMap": true,
+    "baseUrl": "./src",
     "rootDir": "./src",
     "outDir": "./dist/cjs"
-  }
+  },
+  "exclude": ["dist"]
 }

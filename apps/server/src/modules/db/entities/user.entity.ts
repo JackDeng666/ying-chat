@@ -1,4 +1,5 @@
 import { Column, Entity } from 'typeorm'
+import { Exclude, instanceToPlain } from 'class-transformer'
 import { BaseEntity } from './base.entity'
 
 @Entity({ name: 'user' })
@@ -16,6 +17,7 @@ export class UserEntity extends BaseEntity {
   email: string
 
   @Column()
+  @Exclude()
   password: string
 
   @Column({
@@ -23,4 +25,8 @@ export class UserEntity extends BaseEntity {
     nullable: true
   })
   nickname: string
+
+  toJSON() {
+    return instanceToPlain(this)
+  }
 }

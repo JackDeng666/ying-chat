@@ -8,6 +8,7 @@
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
   "scripts": {
+    "dev": "tsc -b -w tsconfig.json --preserveWatchOutput | tsc -b -w tsconfig.esm.json --preserveWatchOutput",
     "build": "rm -rf dist && tsc -b tsconfig.json && tsc -b tsconfig.esm.json"
   }
 }

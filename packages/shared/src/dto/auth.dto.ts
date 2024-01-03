@@ -36,3 +36,21 @@ export class RegisterDtoWithSubPass extends RegisterDto {
   })
   subPassword: string
 }
+
+export class LoginDto {
+  @IsNotEmpty()
+  loginName: string
+
+  @Matches(/^(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$%^&*;',.])/, {
+    message: `password must contain digits, lowercase letters, uppercase letters, and special symbols[!@#$%^&*;',.]`
+  })
+  @IsNotEmpty()
+  password: string
+
+  @Length(4)
+  @IsNotEmpty()
+  code: string
+
+  @IsNotEmpty()
+  uid: string
+}
