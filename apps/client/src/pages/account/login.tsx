@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
   Button,
@@ -15,15 +15,18 @@ import { toast } from 'sonner'
 import { LoginDto } from '@ying-chat/shared'
 import { authApi } from '@/api'
 import { useAuthStore, login } from '@/stores'
+import { useApi } from '@/api/use-api'
 
 const resolver = classValidatorResolver(LoginDto)
 
 export const Login = () => {
   const navigate = useNavigate()
 
-  const [svgData, setSvgData] = useState('')
-
   const sessionUid = useAuthStore(state => state.sessionUid)
+
+  const { data: svgData, run: getCaptcha } = useApi<string>({
+    func: useCallback(() => authApi.getCaptcha(sessionUid), [sessionUid])
+  })
 
   const {
     register,
@@ -35,17 +38,6 @@ export const Login = () => {
       uid: sessionUid
     }
   })
-
-  const getCaptcha = useCallback(async () => {
-    try {
-      const data = await authApi.getCaptcha(sessionUid)
-      setSvgData(data)
-    } catch {}
-  }, [sessionUid])
-
-  useEffect(() => {
-    getCaptcha()
-  }, [getCaptcha])
 
   const onFinish = async (values: LoginDto) => {
     try {
@@ -91,7 +83,7 @@ export const Login = () => {
               endContent={
                 <div
                   className="bg-white cursor-pointer w-[120px] h-[40px]"
-                  dangerouslySetInnerHTML={{ __html: svgData }}
+                  dangerouslySetInnerHTML={{ __html: svgData || '' }}
                   onClick={getCaptcha}
                 ></div>
               }
