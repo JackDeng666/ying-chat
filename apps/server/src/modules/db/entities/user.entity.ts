@@ -1,7 +1,8 @@
-import { Column, Entity, JoinColumn, OneToOne } from 'typeorm'
+import { Column, Entity, JoinColumn, ManyToMany, OneToOne } from 'typeorm'
 import { Exclude, instanceToPlain } from 'class-transformer'
 import { BaseEntity } from './base.entity'
 import { FileEntity } from './file.entity'
+import { GroupEntity } from './group.entity'
 
 @Entity({ name: 'user' })
 export class UserEntity extends BaseEntity {
@@ -35,6 +36,9 @@ export class UserEntity extends BaseEntity {
   @OneToOne(() => FileEntity)
   @JoinColumn()
   avatar: FileEntity
+
+  @ManyToMany(() => GroupEntity)
+  groups: GroupEntity[]
 
   toJSON() {
     return instanceToPlain(this)

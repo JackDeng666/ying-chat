@@ -1,3 +1,5 @@
 export * from './base.entity'
 export * from './user.entity'
 export * from './file.entity'
+export * from './group.entity'
+export * from './group-conversation.entity'

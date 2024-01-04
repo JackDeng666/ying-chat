@@ -13,6 +13,7 @@ import { RedisModule } from '@/modules/redis/redis.module'
 import { UserModule } from '@/modules/user/user.module'
 import { EmailModule } from '@/modules/email/email.module'
 import { FileModule } from '@/modules/file/file.module'
+import { GroupModule } from '@/modules/group/group.module'
 import { AuthGuard } from '@/common/guard'
 
 @Module({
@@ -25,7 +26,8 @@ import { AuthGuard } from '@/common/guard'
     RedisModule,
     EmailModule,
     FileModule,
-    UserModule
+    UserModule,
+    GroupModule
   ],
   providers: [
     {
