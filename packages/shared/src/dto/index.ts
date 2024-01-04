@@ -1,3 +1,5 @@
 export * from './auth.dto'
 export * from './user.dto'
 export * from './create-group.dto'
+export * from './send-msg.dto'
+export * from './group-message-list.dto'

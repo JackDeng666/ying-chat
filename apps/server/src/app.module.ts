@@ -14,6 +14,7 @@ import { UserModule } from '@/modules/user/user.module'
 import { EmailModule } from '@/modules/email/email.module'
 import { FileModule } from '@/modules/file/file.module'
 import { GroupModule } from '@/modules/group/group.module'
+import { ConversationModule } from '@/modules/conversation/conversation.module'
 import { AuthGuard } from '@/common/guard'
 
 @Module({
@@ -27,7 +28,8 @@ import { AuthGuard } from '@/common/guard'
     EmailModule,
     FileModule,
     UserModule,
-    GroupModule
+    GroupModule,
+    ConversationModule
   ],
   providers: [
     {

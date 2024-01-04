@@ -3,6 +3,7 @@ import { GroupRoleType } from '@ying-chat/shared'
 import { BaseEntity } from './base.entity'
 import { UserEntity } from './user.entity'
 import { GroupEntity } from './group.entity'
+import { GroupMessageEntity } from './group-message.entity'
 
 @Entity({ name: 'group_conversation' })
 export class GroupConversationEntity extends BaseEntity {
@@ -19,6 +20,8 @@ export class GroupConversationEntity extends BaseEntity {
   lastMsgId: number
 
   unreadNum?: number
+
+  recentMsg?: GroupMessageEntity
 
   @PrimaryColumn()
   userId: number
