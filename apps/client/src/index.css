@@ -16,3 +16,28 @@ body,
 .fc {
   @apply flex justify-center items-center;
 }
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.scroll-box::-webkit-scrollbar {
+  width: 14px;
+}
+
+.scroll-box::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  --tw-bg-opacity: 1;
+  background-color: hsl(
+    var(--nextui-content2) /
+      var(--nextui-content2-opacity, var(--tw-bg-opacity))
+  );
+}
+
+.scroll-box::-webkit-scrollbar-track {
+  --tw-bg-opacity: 1;
+  background-color: hsl(
+    var(--nextui-content3) /
+      var(--nextui-content3-opacity, var(--tw-bg-opacity))
+  );
+}

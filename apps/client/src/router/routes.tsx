@@ -1,9 +1,9 @@
 import { Navigate } from 'react-router-dom'
-import { Users } from 'lucide-react'
+import { MessageSquare, Users } from 'lucide-react'
 import { AppLayout } from '@/components/layout'
 import { Login } from '@/pages/account/login'
 import { Register } from '@/pages/account/register'
-import { ConversationPage } from '@/pages/conversation'
+import { ConversationDetail, ConversationPage } from '@/pages/conversation'
 import { ContactDetail, ContactPage } from '@/pages/contact'
 import { DefaultWrap } from './default-wrap'
 
@@ -18,7 +18,21 @@ export const routes = [
       },
       {
         path: 'conversation',
-        element: <ConversationPage />
+        element: <ConversationPage />,
+        children: [
+          {
+            index: true,
+            element: (
+              <DefaultWrap>
+                <MessageSquare size={60} />
+              </DefaultWrap>
+            )
+          },
+          {
+            path: 'group/:groupId',
+            element: <ConversationDetail />
+          }
+        ]
       },
       {
         path: 'contact',
