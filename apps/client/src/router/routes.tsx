@@ -1,9 +1,11 @@
 import { Navigate } from 'react-router-dom'
+import { Users } from 'lucide-react'
 import { AppLayout } from '@/components/layout'
 import { Login } from '@/pages/account/login'
 import { Register } from '@/pages/account/register'
 import { ConversationPage } from '@/pages/conversation'
-import { ContactPage } from '@/pages/contact'
+import { ContactDetail, ContactPage } from '@/pages/contact'
+import { DefaultWrap } from './default-wrap'
 
 export const routes = [
   {
@@ -20,7 +22,21 @@ export const routes = [
       },
       {
         path: 'contact',
-        element: <ContactPage />
+        element: <ContactPage />,
+        children: [
+          {
+            index: true,
+            element: (
+              <DefaultWrap>
+                <Users size={60} />
+              </DefaultWrap>
+            )
+          },
+          {
+            path: 'group/:groupId',
+            element: <ContactDetail />
+          }
+        ]
       }
     ]
   },
