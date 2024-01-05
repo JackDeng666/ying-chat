@@ -5,6 +5,8 @@ import { nanoid } from 'nanoid'
 import { GroupEntity, GroupConversationEntity } from '@/modules/db/entities'
 import { FileService } from '@/modules/file/file.service'
 import { CreateGroupDto, FileType, GroupRoleType } from '@ying-chat/shared'
+import { RedisClientType } from 'redis'
+import { RedisKey, RedisToken } from '@/modules/redis/constant'
 
 @Injectable()
 export class GroupService {
@@ -16,6 +18,9 @@ export class GroupService {
 
   @Inject()
   private readonly fileService: FileService
+
+  @Inject(RedisToken)
+  private readonly redisClient: RedisClientType
 
   async create(createGroupDto: CreateGroupDto, userId: number) {
     const newGroup = new GroupEntity()
@@ -33,6 +38,11 @@ export class GroupService {
     newGroupConversation.userRole = GroupRoleType.Owner
 
     await this.groupConversationRepository.save(newGroupConversation)
+
+    await this.redisClient.sAdd(
+      `${RedisKey.GroupUsers}${group.id}`,
+      userId + ''
+    )
 
     return group
   }
@@ -74,6 +84,10 @@ export class GroupService {
     newGroupConversation.groupId = group.id
     newGroupConversation.userRole = GroupRoleType.Member
     await this.groupConversationRepository.save(newGroupConversation)
+    await this.redisClient.sAdd(
+      `${RedisKey.GroupUsers}${group.id}`,
+      userId + ''
+    )
   }
 
   async getUserGroupList(userId: number) {

@@ -12,6 +12,7 @@ import {
   GroupConversationEntity,
   GroupMessageEntity
 } from '@/modules/db/entities'
+import { ConversationGateway } from './conversation.gateway'
 
 @Injectable()
 export class ConversationService {
@@ -23,6 +24,9 @@ export class ConversationService {
 
   @Inject()
   private readonly fileService: FileService
+
+  @Inject()
+  private readonly conversationGateway: ConversationGateway
 
   async getGroupConversationList(userId: number) {
     const res = await this.groupConversationRepository.find({
@@ -69,6 +73,8 @@ export class ConversationService {
 
     const res = await this.groupMessageRepository.save(message)
 
+    this.sendMsgToGroup(res.id)
+
     return res
   }
 
@@ -92,6 +98,8 @@ export class ConversationService {
     message.fileId = minioFile.id
 
     const res = await this.groupMessageRepository.save(message)
+
+    this.sendMsgToGroup(res.id)
 
     return res
   }
@@ -126,6 +134,8 @@ export class ConversationService {
 
     const res = await this.groupMessageRepository.save(message)
 
+    this.sendMsgToGroup(res.id)
+
     return res
   }
 
@@ -142,5 +152,14 @@ export class ConversationService {
         HttpStatus.NOT_ACCEPTABLE
       )
     }
+  }
+
+  async sendMsgToGroup(id: number) {
+    const newMessage = await this.groupMessageRepository.findOne({
+      where: { id },
+      relations: ['user', 'user.avatar', 'file', 'cover']
+    })
+
+    this.conversationGateway.sendMsgToGroup(newMessage)
   }
 }
