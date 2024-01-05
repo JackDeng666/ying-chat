@@ -1,6 +1,7 @@
-import { Outlet } from 'react-router-dom'
+import { KeepAliveOutlet } from '@/router/keep-alive'
 import { Sidebar } from './sidebar'
 import { ConversationProvider } from './conversation-provider'
+
 export { ConversationDetail } from './conversation-detail'
 
 export const ConversationPage = () => {
@@ -10,7 +11,7 @@ export const ConversationPage = () => {
         <Sidebar />
 
         <main className="flex-1">
-          <Outlet />
+          <KeepAliveOutlet />
         </main>
       </div>
     </ConversationProvider>

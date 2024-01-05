@@ -1,5 +1,5 @@
 import { useCallback } from 'react'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import {
   Avatar,
   AvatarGroup,
@@ -16,6 +16,7 @@ import { GroupVo } from '@ying-chat/shared'
 
 export const ContactDetail = () => {
   const { groupId } = useParams()
+  const navigate = useNavigate()
   const { loading, data } = useApi<GroupVo>({
     func: useCallback(() => groupApi.getGroupInfo(groupId!), [groupId])
   })
@@ -32,7 +33,14 @@ export const ContactDetail = () => {
           <p className="text-ellipsis overflow-hidden break-all whitespace-nowrap text-2xl ml-4 flex-1">
             {data.name}
           </p>
-          <Button color="primary" isIconOnly className="rounded-full w-16 h-16">
+          <Button
+            color="primary"
+            isIconOnly
+            className="rounded-full w-16 h-16"
+            onClick={() => {
+              navigate(`/conversation/group/${data.id}`)
+            }}
+          >
             <MessageSquare size={30} />
           </Button>
         </div>

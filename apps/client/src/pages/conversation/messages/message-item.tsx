@@ -1,7 +1,7 @@
 import { forwardRef, memo, useMemo, useRef } from 'react'
 import moment from 'moment'
 import { Avatar, Image, cn } from '@nextui-org/react'
-import { useAuthStore } from '@/stores'
+import { useAuthStore, openPreview } from '@/stores'
 import { GroupMessageType, GroupMessageVo } from '@ying-chat/shared'
 
 type ChatMessageItemProps = {
@@ -55,6 +55,7 @@ const MessageItem = memo(
               <Image
                 src={message.file?.url}
                 className="w-auto h-[200px] cursor-pointer"
+                onClick={() => openPreview('image', message.file!.url)}
               />
             )}
 
@@ -62,6 +63,7 @@ const MessageItem = memo(
               <Image
                 className="w-auto h-[200px] cursor-pointer"
                 src={message.cover?.url}
+                onClick={() => openPreview('video', message.file!.url)}
               />
             )}
           </div>

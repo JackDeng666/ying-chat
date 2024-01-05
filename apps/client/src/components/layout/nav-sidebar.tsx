@@ -14,10 +14,12 @@ import { ModeToggle } from '@/components/mode-toggle'
 import { useAuthStore, logout, setUserInfo } from '@/stores'
 import { UserInfoModal } from '@/components/modals'
 import { userApi } from '@/api'
+import { useRouterContext } from '@/router/use-router-context'
 
 export const NavSidebar = () => {
   const navigate = useNavigate()
   const { pathname } = useLocation()
+  const { routeKeyCache } = useRouterContext()
 
   const userInfo = useAuthStore(state => state.userInfo)
 
@@ -50,7 +52,12 @@ export const NavSidebar = () => {
             pathname.startsWith('/conversation') && 'rounded-2xl bg-primary'
           )}
           onClick={() => {
-            navigate('/conversation', { replace: true })
+            const cacheRoute = routeKeyCache['/conversation']
+            if (cacheRoute) {
+              navigate(cacheRoute, { replace: true })
+            } else {
+              navigate('/conversation', { replace: true })
+            }
           }}
         >
           <MessageSquare />
@@ -62,7 +69,12 @@ export const NavSidebar = () => {
             pathname.startsWith('/contact') && 'rounded-2xl bg-primary'
           )}
           onClick={() => {
-            navigate('/contact', { replace: true })
+            const cacheRoute = routeKeyCache['/contact']
+            if (cacheRoute) {
+              navigate(cacheRoute, { replace: true })
+            } else {
+              navigate('/contact', { replace: true })
+            }
           }}
         >
           <Users />

@@ -1,5 +1,5 @@
-import { Outlet } from 'react-router-dom'
 import { useAuthRoute } from '@/router/use-auth-route'
+import { KeepAliveOutlet } from '@/router/keep-alive'
 import { NavSidebar } from './nav-sidebar'
 
 export const AppLayout = () => {
@@ -8,7 +8,7 @@ export const AppLayout = () => {
       <NavSidebar />
 
       <main className="h-full flex-1">
-        <Outlet />
+        <KeepAliveOutlet />
       </main>
     </div>
   )
