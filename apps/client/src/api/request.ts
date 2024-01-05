@@ -1,6 +1,6 @@
 import axios, { AxiosError } from 'axios'
 import { toast } from 'sonner'
-import { TOKEN } from '@/stores'
+import { TOKEN, resetAuth } from '@/stores'
 
 export const request = axios.create({
   baseURL: '/api'
@@ -32,6 +32,9 @@ request.interceptors.response.use(
   (error: AxiosError<ErrorRes>) => {
     const res = error.response
     if (res) {
+      if (res.status === 401) {
+        resetAuth()
+      }
       const msg = res.data.message
       if (Array.isArray(msg)) {
         toast.error(msg[0])

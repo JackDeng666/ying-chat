@@ -1,8 +1,10 @@
-import { forwardRef, memo, useMemo, useRef } from 'react'
+import { forwardRef, memo, useEffect, useMemo, useRef } from 'react'
 import moment from 'moment'
 import { Avatar, Image, cn } from '@nextui-org/react'
 import { useAuthStore, openPreview } from '@/stores'
 import { GroupMessageType, GroupMessageVo } from '@ying-chat/shared'
+import { useObserver } from '@/components/scroll-box'
+import { useConversation } from '../use-conversation'
 
 type ChatMessageItemProps = {
   message: GroupMessageVo
@@ -78,6 +80,20 @@ const MessageItem = memo(
 
 export const ChatMessageItem = ({ message }: ChatMessageItemProps) => {
   const messageItemRef = useRef(null)
+
+  const { observer } = useObserver()
+  const { updateLastMsg } = useConversation()
+
+  useEffect(() => {
+    if (!observer || !messageItemRef.current) return
+
+    const unObserver = observer(messageItemRef.current, () => {
+      updateLastMsg(message.id)
+      unObserver()
+    })
+
+    return unObserver
+  }, [observer, messageItemRef, updateLastMsg, message])
 
   return <MessageItem ref={messageItemRef} message={message} />
 }

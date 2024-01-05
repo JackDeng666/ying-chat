@@ -8,13 +8,14 @@ type ConversationProviderProps = {
 export const ConversationProvider: React.FC<ConversationProviderProps> = ({
   children
 }) => {
-  const { coversations, isActived } = useConversationLogic()
+  const { coversations, isActived, updateLastMsg } = useConversationLogic()
 
   return (
     <ConversationContext.Provider
       value={{
         coversations,
-        isActived
+        isActived,
+        updateLastMsg
       }}
     >
       {children}

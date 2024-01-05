@@ -1,10 +1,12 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { RefObject, useCallback, useEffect, useRef, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { CircularProgress } from '@nextui-org/react'
+import { Chip, CircularProgress } from '@nextui-org/react'
 import { GroupMessageVo } from '@ying-chat/shared'
 import { conversationApi } from '@/api'
 import { ScollBox, ScollBoxHandle } from '@/components/scroll-box'
 import { ChatMessageItem } from './message-item'
+import { useSocket } from '@/socket'
+import { ArrowDown } from 'lucide-react'
 
 const SIZE = 30
 
@@ -75,9 +77,55 @@ const useMessages = () => {
   }
 }
 
+const useRealtimeMessage = (
+  scrollBoxRef: RefObject<ScollBoxHandle>,
+  addNewMessage: (newMessage: GroupMessageVo) => void
+) => {
+  const [unreadNum, setUnreadNum] = useState(0)
+  const { socket } = useSocket()
+  const { groupId } = useParams()
+
+  useEffect(() => {
+    if (!groupId || !socket) return
+
+    const handleNewMessage = (message: GroupMessageVo) => {
+      const distanceFromBottom = scrollBoxRef.current?.getDistanceFromBottom()
+      if (
+        scrollBoxRef.current &&
+        document.visibilityState === 'visible' &&
+        Number(distanceFromBottom) <= 300
+      ) {
+        scrollBoxRef.current?.keepBottom(() => {
+          addNewMessage(message)
+        })
+      } else {
+        addNewMessage(message)
+        setUnreadNum(preNum => preNum + 1)
+      }
+    }
+
+    socket.on(`group-message:${groupId}`, handleNewMessage)
+
+    return () => {
+      socket.off(`group-message:${groupId}`, handleNewMessage)
+    }
+  }, [socket, scrollBoxRef, groupId, addNewMessage])
+
+  return {
+    unreadNum,
+    setUnreadNum
+  }
+}
+
 export const ChatMessages = () => {
   const scrollBoxRef = useRef<ScollBoxHandle>(null)
-  const { messages, firstLoaded, loaded, loadPrevMessages } = useMessages()
+  const { messages, firstLoaded, loaded, loadPrevMessages, addNewMessage } =
+    useMessages()
+
+  const { unreadNum, setUnreadNum } = useRealtimeMessage(
+    scrollBoxRef,
+    addNewMessage
+  )
 
   useEffect(() => {
     if (firstLoaded) {
@@ -93,6 +141,21 @@ export const ChatMessages = () => {
 
   return (
     <div className="flex-1 h-[1px] relative">
+      {unreadNum ? (
+        <Chip
+          className="absolute top-10 right-5 z-30 cursor-pointer"
+          startContent={<ArrowDown />}
+          variant="solid"
+          color="success"
+          onClick={() => {
+            scrollBoxRef.current?.scrollToBottom('smooth')
+            setUnreadNum(0)
+          }}
+        >
+          {`you have ${unreadNum} new messages`}
+        </Chip>
+      ) : null}
+
       <ScollBox className="h-full" ref={scrollBoxRef} onTop={onTop}>
         <div className="w-full flex justify-center my-4" aria-label="tip">
           {!loaded ? (

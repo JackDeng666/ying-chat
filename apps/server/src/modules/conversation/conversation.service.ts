@@ -1,6 +1,6 @@
 import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { LessThan, Repository } from 'typeorm'
+import { LessThan, MoreThan, Repository } from 'typeorm'
 import {
   FileType,
   GroupMessageListDto,
@@ -152,6 +152,27 @@ export class ConversationService {
         HttpStatus.NOT_ACCEPTABLE
       )
     }
+  }
+
+  findRecentGroupMessage(groupId: number) {
+    return this.groupMessageRepository.findOne({
+      where: {
+        groupId
+      },
+      order: {
+        id: 'DESC'
+      },
+      relations: ['user']
+    })
+  }
+
+  findUnreadGroupMessageNum(groupId: number, lastMsgId: number) {
+    return this.groupMessageRepository.count({
+      where: {
+        groupId,
+        id: MoreThan(lastMsgId)
+      }
+    })
   }
 
   async sendMsgToGroup(id: number) {
