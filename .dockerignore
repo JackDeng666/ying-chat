@@ -1,0 +1,14 @@
+.git
+.gitignore
+*.md
+**/node_modules
+**/dist
+**/public
+.vscode
+.husky
+.dockerignore
+Dockerfile
+.eslintignore
+.eslintrc
+.prettierrc
+.prettierignore

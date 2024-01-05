@@ -2,9 +2,12 @@ import {
   ArgumentsHost,
   Catch,
   ExceptionFilter,
-  HttpException
+  HttpException,
+  HttpStatus
 } from '@nestjs/common'
 import { Request, Response } from 'express'
+import { createReadStream } from 'fs'
+import { join } from 'path'
 
 @Catch(HttpException)
 export class HttpExceptionFilter implements ExceptionFilter {
@@ -15,6 +18,18 @@ export class HttpExceptionFilter implements ExceptionFilter {
 
     const status = exception.getStatus()
     const exceptionRes = exception.getResponse()
+
+    if (
+      status === HttpStatus.NOT_FOUND &&
+      !request.url.startsWith('/api') &&
+      process.env.NODE_ENV === 'prod'
+    ) {
+      const indexFile = createReadStream(
+        join(process.cwd(), 'public/index.html')
+      )
+      indexFile.pipe(response)
+      return
+    }
 
     const error =
       typeof exceptionRes === 'string'

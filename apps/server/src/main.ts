@@ -9,11 +9,12 @@ import {
   ResponseWrapInterceptor
 } from '@/common/interceptor'
 import { OtherExceptionFilter, HttpExceptionFilter } from '@/common/filter'
+import { NestExpressApplication } from '@nestjs/platform-express'
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule)
+  const app = await NestFactory.create<NestExpressApplication>(AppModule)
   const apiConf = app.get<ConfigType<typeof apiConfig>>(apiConfig.KEY)
-  app.setGlobalPrefix(apiConf.prefix)
+  app.setGlobalPrefix('/api')
   app.useGlobalInterceptors(new ProcessTimeInterceptor())
   app.useGlobalInterceptors(new ResponseWrapInterceptor())
   app.useGlobalFilters(new OtherExceptionFilter())
@@ -25,6 +26,7 @@ async function bootstrap() {
       forbidUnknownValues: true
     })
   )
+  app.useStaticAssets('public')
   const config = new DocumentBuilder()
     .setTitle('ying chat app')
     .setDescription('a real-time chat app')
@@ -36,7 +38,7 @@ async function bootstrap() {
   SwaggerModule.setup('doc', app, document)
   await app.listen(apiConf.port)
   Logger.log(
-    `Application running on: http://localhost:${apiConf.port}${apiConf.prefix}`,
+    `Application running on: http://localhost:${apiConf.port}/api`,
     'Main'
   )
 }
