@@ -2,7 +2,7 @@
 
 - [简体中文](README.zh_CN.md)
 
-## 简介
+## Introduction
 
 This is an instant messaging project using the monorepo of PNPM, which only implements basic group chat.
 
