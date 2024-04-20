@@ -1,19 +1,19 @@
 <h1 align="center">Ying Chat</h1>
 
-- [简体中文](README.zh_CN.md)
+## 简介
 
-## Introduction
+这是一个使用 pnpm 的 monorepo 架构的即时通讯项目，前端 Vite + React + NextUI，后端使用 Nestjs + typeorm + MySQL，只实现了基础的群聊。
 
-This is an instant messaging project using the monorepo of PNPM, which only implements basic group chat.
+详细:
 
-front end
+前端
 
 - Vite
 - React
 - NextUI
 - Socket.IO
 
-back end
+后端
 
 - Nestjs
 - MySQL
@@ -21,81 +21,33 @@ back end
 - MinIO
 - Socket.IO
 
-## Development environment version reference
+## 开发环境版本参考
 
 - node v18.18.2
 - pnpm v8.9.2
 
-## Development environment startup
+## 开发环境启动
 
-For all the following commands, if you are using cmd to run commands in Windows, change the line break from `\` to `^`, and replace other configurations with your own.
-
-### 1. Redis startup
-
-```shell
-docker run --name redis-test \
-  -p 6379:6379 \
-  -v D:/DockerData/ContainerBackup/redis-data:/data \
-  -d redis
-```
-
-### 2. MySQL startup
-
-```shell
-docker run --name mysql-test \
-  -p 3306:3306 \
-  -v D:/DockerData/ContainerBackup/mysql-data:/var/lib/mysql \
-  -e MYSQL_ROOT_PASSWORD=ying123456 \
-  -e TZ=Asia/Shanghai \
-  -d mysql
-```
-
-### 3. MinIO startup
-
-```shell
-docker run --name minio-test -d \
-  -p 9000:9000 \
-  -p 9090:9090 \
-  -v D:/DockerData/ContainerBackup/minio-data:/data \
-  -e MINIO_ROOT_USER=ying \
-  -e MINIO_ROOT_PASSWORD=ying123456 \
-  minio/minio server /data --console-address ":9090"
-```
-
-`/data` is the data storage location within the MinIO container.
-
-`--console-address` is the backend management address port of MinIO.
-
-If you are using GitBash to run commands on Windows, change `/data` to `./Data`, otherwise the path may not be used correctly.
-
-After startup, you can open the backend management system of MinIO and use the `MINIO_ROOT_USER` and `MINIO_ROOT_PASSWORD` defined above to log in.
-
-[http://localhost:9090](http://localhost:9090)
-
-Finally, add an `Access Keys` that will be used to start the project later.
-
-### 4. Project startup
-
-Fill in the `apps/server/.env` section with all the environments that have been started above.
+查看 `apps\server\.env` 文件，把需要环境都填进去。
 
 ```shell
 pnpm i
 pnpm dev
 ```
 
-## Deploy
+## 部署
 
-### 1. Build image
+### 1. 打包镜像
 
-The root directory of the project has written a Dockerfile file, and you can directly use Docker's build command to build an image.
+项目根目录写了 Dockerfile 文件，直接使用 docker 的打包命令打包一个镜像。
 
 ```shell
 docker build -t ying-chat:latest .
 ```
 
-### 2. Start container
+### 2.启动镜像
 
-Docker Command Example，the following `kubernetes.docker.internal` are containers accessing my windows local network.
+docker 命令示例，以下`kubernetes.docker.internal`为容器内访问我windows的宿主机的网络。
 
 ```shell
 docker run --name ying-chat \
@@ -120,7 +72,7 @@ docker run --name ying-chat \
   -d ying-chat:latest
 ```
 
-Docker Compose File Example
+docker compose 文件示例
 
 ```yml
 version: '3'
