@@ -2,7 +2,7 @@
 
 ## 简介
 
-这是一个使用 pnpm 的 monorepo 架构的即时通讯项目，前端 Vite + React + NextUI，后端使用 Nestjs + typeorm + MySQL，只实现了基础的群聊。
+这是一个使用 pnpm 的 monorepo 架构的即时通讯项目，前端 Vite + React + NextUI，后端使用 Nestjs + TypeORM + MySQL，只实现了基础的群聊。
 
 详细:
 
